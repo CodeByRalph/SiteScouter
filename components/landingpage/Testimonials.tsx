@@ -17,7 +17,7 @@ export default function Testimonials() {
             </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <p className="mb-4">&quot;I've tripled my client base using SiteScout. It&apos;s an essential tool for any web agency.&quot;</p>
+            <p className="mb-4">&quot;I&apos;ve tripled my client base using SiteScout. It&apos;s an essential tool for any web agency.&quot;</p>
             <div className="flex items-center">
               <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
               <div>
