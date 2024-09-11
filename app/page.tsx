@@ -1,9 +1,19 @@
-import Image from "next/image";
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import LandingPageLayout from "./(landingpage)/layout";
+import LandingPage from "./(landingpage)/page";
+import Home from "@/components/Home";
 
-export default function Home() {
+export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Hello World!</h1>
-    </main>
+    <>
+      <SignedOut>
+        <LandingPageLayout>
+          <LandingPage />
+        </LandingPageLayout>
+      </SignedOut>
+      <SignedIn>
+        <Home />
+      </SignedIn>
+    </>
   );
 }
