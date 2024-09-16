@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-import { SignUpButton } from '@clerk/nextjs'
+import { SignUpButton, SignedOut, SignedIn } from '@clerk/nextjs'
 
 export default function LandingPageHero() {
   return (
@@ -9,8 +9,8 @@ export default function LandingPageHero() {
       <Image
         src="/heroImage.png"
         alt="Hero background"
-        layout="fill"
-        objectFit="cover"
+        fill
+        className='object-cover'
         quality={100}
         priority
       />
@@ -19,11 +19,20 @@ export default function LandingPageHero() {
         <div className="max-w-3xl">
           <h1 className="text-5xl font-bold mb-4">Find Your Next Client, Effortlessly</h1>
           <p className="text-lg font-medium mb-8">Discover businesses in your area without a website and pitch your services.</p>
+          <SignedOut>
           <SignUpButton mode="modal">
             <button className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-medium mr-4">
               Find Clients Now
             </button>
           </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <a href='/map'>
+              <button className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-medium mr-4">
+                Find Clients Now
+              </button>
+            </a>
+          </SignedIn>
         </div>
       </div>
     </section>

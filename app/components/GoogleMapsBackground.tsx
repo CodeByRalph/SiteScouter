@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { GoogleMap, LoadScript, Circle } from '@react-google-maps/api';
 import BusinessComponent from './BusinessComponent';
 import debounce from 'lodash/debounce'; // Make sure to install lodash
@@ -77,6 +77,8 @@ export default function GoogleMapsBackground() {
     }
   }, [radius, fetchPlacesInRadius, fetchPlaceDetails]);
 
+  const [inputRadius, setInputRadius] = useState(radius.toString());
+
   const debouncedHandleRadiusChange = useMemo(
     () => debounce((newRadius: number) => {
       setRadius(newRadius);
@@ -88,8 +90,42 @@ export default function GoogleMapsBackground() {
   );
 
   const handleRadiusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newRadius = Number(e.target.value);
-    debouncedHandleRadiusChange(newRadius);
+    const newValue = e.target.value;
+    setInputRadius(newValue);
+    
+    const newRadius = Number(newValue);
+    if (!isNaN(newRadius) && newRadius > 0) {
+      debouncedHandleRadiusChange(newRadius);
+    }
+  };
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2;
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    }
   };
 
   useEffect(() => {
@@ -143,14 +179,14 @@ export default function GoogleMapsBackground() {
         </GoogleMap>
       </LoadScript>
       <div className="absolute bottom-4 left-4 right-4">
-        <div className="bg-white p-2 rounded-lg shadow-lg mb-2 flex items-center space-x-2">
+        <div className="bg-white p-2 rounded-lg shadow-lg mb-2 flex items-center space-x-2 md:mx-20">
           <label htmlFor="radius" className="text-sm font-medium text-gray-700 whitespace-nowrap">
             Radius (m):
           </label>
           <input
-            type="number"
+            type="text"
             id="radius"
-            value={radius}
+            value={inputRadius}
             onChange={handleRadiusChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
           />
@@ -160,8 +196,15 @@ export default function GoogleMapsBackground() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <div className="flex space-x-4">
+          <div 
+            ref={scrollContainerRef}
+            className="overflow-x-auto no-scrollbar md:mx-20 cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+          >
+            <div className="flex space-x-4 min-w-max">
               {places.map((place) => (
                 <BusinessComponent key={place.place_id} place={place} />
               ))}

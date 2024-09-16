@@ -1,19 +1,15 @@
-import { SignedIn, SignedOut } from '@clerk/nextjs';
-import LandingPageLayout from "./(landingpage)/layout";
-import LandingPage from "./(landingpage)/page";
-import Home from "@/components/Home";
+import LandingPageHero from '@/app/components/landingpage/LandingPageHero'
+import LandingPageFeatures from '@/app/components/landingpage/LandingPageFeatures'
+import LandingPagePricing from '@/app/components/landingpage/LandingPagePricing'
+import CallToAction from '@/app/components/landingpage/CallToAction'
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <>
-      <SignedOut>
-        <LandingPageLayout>
-          <LandingPage />
-        </LandingPageLayout>
-      </SignedOut>
-      <SignedIn>
-        <Home />
-      </SignedIn>
-    </>
+    <main>
+      <LandingPageHero />
+      <LandingPageFeatures />
+      <LandingPagePricing />
+      <CallToAction />
+    </main>
   );
 }

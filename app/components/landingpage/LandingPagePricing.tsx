@@ -7,8 +7,8 @@ export default function Pricing() {
         <h2 className="text-3xl font-bold text-center mb-12">Choose Your Plan</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="border rounded-lg p-6">
-            <h3 className="text-xl font-semibold mb-4">Free</h3>
-            <p className="text-3xl font-bold mb-4">$0<span className="text-sm font-normal">/month</span></p>
+            <h3 className="text-xl font-semibold mb-4">Basic</h3>
+            <p className="text-3xl font-bold mb-4">Free</p>
             <ul className="mb-6">
               <li className="mb-2">✓ Basic Search Radius (1-2 miles)</li>
               <li className="mb-2">✓ 5 searches per day</li>
