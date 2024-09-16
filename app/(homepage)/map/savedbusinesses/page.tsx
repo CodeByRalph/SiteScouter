@@ -25,7 +25,7 @@ export default function SavedBusinessesPage() {
         </div>
         {savedBusinesses.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-xl text-gray-600 mb-4">You haven't saved any businesses yet.</p>
+            <p className="text-xl text-gray-600 mb-4">You haven&apos;t saved any businesses yet.</p>
             <Link href="/map" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
               Explore Businesses
             </Link>
