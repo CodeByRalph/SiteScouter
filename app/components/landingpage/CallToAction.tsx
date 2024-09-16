@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { SignUpButton } from '@clerk/nextjs'
+import { SignUpButton, SignedOut, SignedIn } from '@clerk/nextjs'
+import Contact from '@/app/components/ContactForm'
 
 export default function CallToAction() {
   return (
     <section className="py-20 bg-blue-600 text-white">
+      <SignedOut>
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Grow Your Business?</h2>
         <p className="text-xl mb-8">Join SiteScout today and start finding your ideal clients.</p>
@@ -14,6 +16,10 @@ export default function CallToAction() {
           </button>
         </SignUpButton>
       </div>
+      </SignedOut>
+      <SignedIn>
+        <Contact />
+      </SignedIn>
     </section>
   )
 }
